@@ -5,26 +5,29 @@
   roles:
     - {role: iptables, when: "iptables_config"}
     - {role: common, when: "install_glusterfs"}
-  tasks:
+    - emacs
+    - jdk
+    - odbc
+  post_tasks:
     - name: research eod symlinks
       file:
          src: "{{ item.src }}"
          dest: "{{ item.dest }}"
-      with_items: eod_symlinks 
-
-  tasks:
+      with_items: "{{ eod_symlinks }}"
     - name: Ensure X11 Forwarding is present
       lineinfile:
         dest: /etc/ssh/sshd_config
-        regexp: ^\s*X11Forwarding=no
-        line: X11Forwarding=yes
+        regexp: ^\s*X11Forwarding\s*no
+        line: X11Forwarding yes
+      when: not custom_repo
 
     - name: Ensure ClientAliveCountMax is set to correct value
       lineinfile:
-        dest: /etc/ssh/sshd_config 
-        regexp: ClientAliveCountMax
-        line: ClientAliveCountMax=384
-   
+        dest: /etc/ssh/sshd_config
+        regexp: ^\s*ClientAliveCountMax\s*[0-9]+
+        line: ClientAliveCountMax 384
+      when: not custom_repo
+
     - name: Ensure run level 5
       lineinfile:
         dest: /etc/inittab
@@ -32,11 +35,16 @@
         line: "id:5:initdefault:"
 
     - name: research printers symlinks
-      file: 
+      file:
         state: link
         src: "{{ item.src }}"
         dest: "{{ item.dest }}"
       with_items: "{{ printers_symlinks }}"
+
+    - name: Install git
+      yum:
+        name: git
+        state: present
 
 - hosts: research_ancillary_services
   become: yes
@@ -47,17 +55,16 @@
     - open_office
     - evince
     - stattransfer
-    - odbc
     - sublime
     - jdk
-  tasks:
+  post_tasks:
     - name: Install Ultra Edit
       yum:
         name: UltraEdit.x86_64
         state: present
         disable_gpg_check: yes
       when: custom_repo
- 
+
     - name: Install texlive
       yum:
         name: texlive
@@ -73,8 +80,7 @@
   become: yes
   become_method: sudo
   roles:
-    - gauss
-    - odbc
+    # - gauss
     - gocd
     - stattransfer
 
@@ -83,7 +89,6 @@
   become_method: sudo
   roles:
     - stata
-    - odbc
     - stattransfer
 
 - hosts: research_python
@@ -95,55 +100,35 @@
     - {role: python-build, when: "not custom_repo"}
     - {role: python3, when: "custom_repo"}
     - {role: python3-build, when: "not custom_repo"}
+    - {role: python-libs}
     - {role: epel, when: "use_epel"}
-    - jdk
     - postgresql-client
     - r
     - r-studio-desktop
     - r-studio-server-config
     - r-studio-server
     - pycharm
-    - odbc
     - gocd
     - stattransfer
-  tasks:
-    - name: Install Python RPM dependencies
+  post_tasks:
+    - name: Install Gnome-Terminal package
       yum:
         name: "{{ item }}"
         state: present
         disable_gpg_check: yes
-      with_items: "{{ python_dep_packages }}"
-
-    - name: Install Python packages for 27
-      pip:
-        name: "{{ item }}"
-        state: present
-        executable: /usr/local/bin/pip2.7
-      with_items: "{{ python_packages }}"
-      when: install_python
-
-    - name: Install Python packages for 34
-      pip:
-        name: "{{ item }}"
-        state: present
-        executable: /usr/local/bin/pip3.4
-      with_items: "{{ python3_packages }}"
-
-    - name: Install Gnome-Terminal package
-      yum:
-        name: "{{ item }}"
-        state: present 
-        disable_gpg_check: yes 
       with_items:
         - gnome-terminal
-      when: install_python
+
+    - name: Install git
+      yum:
+        name: git
+        state: present
 
 - hosts: research_sas
   become: yes
   become_method: sudo
   roles:
     # - sas
-    - odbc
     - gocd
     - stattransfer
 
@@ -152,7 +137,6 @@
   become_method: sudo
   roles:
     # - spss
-    - odbc
     - gocd
     - stattransfer
 
@@ -161,15 +145,14 @@
   become_method: sudo
   roles:
     # - matlab
-    - odbc
     - gocd
     - stattransfer
   tasks:
-  - name: Install libselinux-python and libicu package 
+  - name: Install libselinux-python and libicu package
     yum:
-      name: "{{ item }}" 
+      name: "{{ item }}"
       state: present
-      disable_gpg_check: yes 
-    with_items: 
-      - libicu 
+      disable_gpg_check: yes
+    with_items:
+      - libicu
       - libselinux-python

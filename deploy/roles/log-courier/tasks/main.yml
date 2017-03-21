@@ -37,3 +37,16 @@
     state: started
     enabled: yes
   when: '"elk" in groups'
+
+- name: Create admin group
+  group:
+    name: "{{ restricted_group_name }}"
+    state: present
+
+- name: Allow admins to read logs
+  acl:
+    path: "{{ log_file_location }}"
+    entity: "{{ restricted_group_name }}"
+    etype: group
+    permissions: rx
+    state: present
