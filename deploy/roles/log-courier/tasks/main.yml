@@ -37,3 +37,19 @@
     state: started
     enabled: yes
   when: '"elk" in groups'
+
+- name: Create empty log files if they don't exist
+  file:
+    path: "{{ log_file_location }}"
+    state: touch
+    owner: root
+    group: root
+    mode: 0640
+    
+- name: Allow admins to read logs
+  acl:
+    path: "{{ log_file_location }}"
+    entity: "{{ restricted_group_name }}"
+    etype: group
+    permissions: rx
+    state: present
