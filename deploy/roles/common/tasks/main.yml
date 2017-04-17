@@ -73,3 +73,8 @@
   yum:
     name: screen
     state: present
+
+- name: Create admin group
+  group:
+    name: "{{ restricted_group_name }}"
+    state: present
