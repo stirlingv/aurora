@@ -32,3 +32,27 @@
   command: kadmin -p {{ krb_service_user }}/admin -w {{ krb_service_user_password }} -q "ktadd host/{{ proxy_subdomain }}.{{ domain_name }}"
   when: create_keytabs and kerberos_enabled
   run_once: True
+
+- name: Create empty log files if they don't exist
+  file:
+    path: "{{ item }}"
+    state: touch
+    owner: root
+    group: root
+    mode: 0640
+  with_items:
+    - /var/log/krb5libs.log
+    - /var/log/krb5kdc.log
+    - /var/log/kadmind.log
+
+- name: Allow admins to read logs
+  acl:
+    path: "{{ item }}"
+    entity: "{{ restricted_group_name }}"
+    etype: group
+    permissions: rx
+    state: present
+  with_items:
+    - /var/log/krb5libs.log
+    - /var/log/krb5kdc.log
+    - /var/log/kadmind.log
