@@ -11,7 +11,7 @@ env:
   - >
     HOST_GROUP=proxy_server
     PLAYBOOK_LOCATION=/aurora/deploy/deploy_proxy_server.yml 
-    EXTRA_VAR_DEF='{"skip_glusterfs": true, "install_python": false, "kerberos_enabled": false,"install_logstash": false}'   
+    EXTRA_VAR_DEF='{"skip_glusterfs": true, "install_python": false, "kerberos_enabled": false,"use_epel": false}'   
 
  # admin terminal  
   - >
@@ -35,14 +35,14 @@ env:
   - >
     HOST_GROUP=elasticsearch
     PLAYBOOK_LOCATION=/aurora/deploy/deploy_elastic_search.yml 
-    EXTRA_VAR_DEF='{"skip_glusterfs": true, "install_python": false, "install_logstash": false, "es_message_auth": false}'
+    EXTRA_VAR_DEF='{"skip_glusterfs": true, "install_python": false, "use_epel": false, "es_message_auth": false}'
 
 
 # elk 
   - >
     HOST_GROUP=elk
     PLAYBOOK_LOCATION=/aurora/deploy/deploy_elk.yml 
-    EXTRA_VAR_DEF='{"skip_glusterfs": true, "install_python": false, "install_logstash": false, "es_message_auth": false, "deploy_iptables": false}'
+    EXTRA_VAR_DEF='{"skip_glusterfs": true, "install_python": false, "use_epel": false, "es_message_auth": false, "deploy_iptables": false}'
 
 # mesos 
   - >
