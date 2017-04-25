@@ -8,6 +8,8 @@ r_dependencies:
   - libcurl-devel
   - libxml2-devel
   - hunspell-devel
+  - udunits2
+  - udunits2-devel
 
 r_packages:
   - "devtools"
@@ -22,3 +24,9 @@ r_env_vars:
   CC: /opt/rh/devtoolset-2/root/usr/bin/gcc
   CPP: /opt/rh/devtoolset-2/root/usr/bin/cpp
   CXX: /opt/rh/devtoolset-2/root/usr/bin/c++
+
+r_packages_with_opts:
+  -
+    name: udunits2
+    include: /usr/include/udunits2
+    lib: /usr/lib64

@@ -41,9 +41,7 @@
     group: root
     mode: 0640
   with_items:
-    - /var/log/krb5libs.log
-    - /var/log/krb5kdc.log
-    - /var/log/kadmind.log
+    - "{{ log_file_locations }}"
 
 - name: Allow admins to read logs
   acl:
@@ -53,6 +51,4 @@
     permissions: rx
     state: present
   with_items:
-    - /var/log/krb5libs.log
-    - /var/log/krb5kdc.log
-    - /var/log/kadmind.log
+    - "{{ log_file_locations }}"
