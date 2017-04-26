@@ -558,12 +558,22 @@
     mode: 0640
   with_items: "{{ log_file_locations }}"
 
-- name: Allow admins to read logs
+- name: Set recursive admin permissions on log folders
   acl:
     path: "{{ item }}"
     entity: "{{ restricted_group_name }}"
     etype: group
-    permissions: rx
+    permissions: rX
+    recursive: yes
+    state: present
+  with_items: "{{ log_file_locations }}"
+
+- name: Set default admin permissions on log folders
+  acl:
+    path: "{{ item }}"
+    entity: "{{ restricted_group_name }}"
+    etype: group
+    permissions: rX
     default: yes
     state: present
   with_items: "{{ log_file_locations }}"

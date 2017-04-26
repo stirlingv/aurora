@@ -6,4 +6,4 @@ shared_links: []
 skip_glusterfs: false
 
 log_file_locations:
-  - /var/log/messages/
+  - /var/log/messages
