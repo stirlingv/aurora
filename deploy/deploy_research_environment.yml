@@ -112,6 +112,10 @@
     - pycharm
     - gocd
     - stattransfer
+
+  tasks:
+    - name: Install Python RPM dependencies
+
   post_tasks:
     - name: Install Gnome-Terminal package
       yum:
@@ -155,6 +159,15 @@
     - stattransfer
   tasks:
   - name: Install libselinux-python and libicu package
+    yum:
+      name: "{{ item }}"
+      state: present
+      disable_gpg_check: yes
+    with_items:
+      - "{{ libicu }}"
+      - "{{ libselinux-python }}"
+
+  - name: Install git
     yum:
       name: "{{ item }}"
       state: present

@@ -57,6 +57,8 @@
     path: "{{ item }}"
     entity: "{{ restricted_group_name }}"
     etype: group
-    permissions: rx
+    permissions: rX
+    recursive: yes
     state: present
   with_items: "{{ log_file_locations }}"
+

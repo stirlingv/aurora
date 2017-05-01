@@ -80,7 +80,7 @@
   group:
     name: "{{ restricted_group_name }}"
     state: present
-    
+
 - name: Create empty log files if they don't exist
   file:
     path: "{{ item }}"
@@ -104,3 +104,4 @@
     name: vagrant
     append: yes
     groups: "{{ restricted_group_name }}"
+

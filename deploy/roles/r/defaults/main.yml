@@ -16,8 +16,7 @@ r_packages:
 #  - "http://cran.r-project.org/src/contrib/Archive/RQuantLib/RQuantLib_0.3.12.tar.gz" # The latest version requires QuantLib 1.4.0, which is not supported by Centos 6.5
 
 r_packages_github:
-  -
-    name: shinydashboard
+  - name: shinydashboard
     user: rstudio
 
 r_env_vars:
@@ -26,7 +25,6 @@ r_env_vars:
   CXX: /opt/rh/devtoolset-2/root/usr/bin/c++
 
 r_packages_with_opts:
-  -
-    name: udunits2
+  - name: udunits2
     include: /usr/include/udunits2
     lib: /usr/lib64

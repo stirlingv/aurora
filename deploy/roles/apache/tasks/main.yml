@@ -56,13 +56,21 @@
     creates: /etc/pki/tls/certs/localhost.crt
   when: not custom_repo
 
-- name: Allow admins to read logs
+- name: Set recursive admin permissions on log folders
   acl:
-    path: "{{ item }}"
+    path: "{{ apache_log_folder }}"
     entity: "{{ restricted_group_name }}"
     etype: group
-    permissions: rx
+    permissions: rX
+    recursive: yes
     state: present
-  with_items:
-    - /var/log/httpd24/
-    - /var/log/httpd/
+
+- name: Set default admin permissions on log folders
+  acl:
+    path: "{{ apache_log_folder }}"
+    entity: "{{ restricted_group_name }}"
+    etype: group
+    permissions: rX
+    default: yes
+    state: present
+
