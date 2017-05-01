@@ -1,6 +1,6 @@
 # .travis.yml
 ---
-sudo: required
+sudo: false
 
 env:
  global:
@@ -166,6 +166,11 @@ script:
 # Test role
   - >
     docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook "${PLAYBOOK_LOCATION}" --extra-vars "@/tmp/extra_vars.json" 
+
+after_script:
+  - killall -9 python
+  - killall -9 java
+
 
 #extra log info
 #- >
