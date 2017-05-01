@@ -1,6 +1,6 @@
 # .travis.yml
 ---
-sudo: false
+sudo: required
 
 env:
  global:
