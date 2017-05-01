@@ -153,7 +153,7 @@ script:
   - >
     docker run --detach --volume="${PWD}":/aurora:ro --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro centos:ansible "/sbin/init" > "${container_id}"
   - >
-    docker exec --tty "$(cat ${container_id})" env TERM=xterm sh -c "echo $EXTRA_VAR_DEF > /tmp/extra_vars.json"
+    docker exec "$(cat ${container_id})" env TERM=xterm sh -c "echo $EXTRA_VAR_DEF > /tmp/extra_vars.json"
   - >
     docker exec --tty "$(cat ${container_id})" env TERM=xterm sh -c "cat /tmp/extra_vars.json"
 # Parameterize docker temp file build
@@ -161,16 +161,11 @@ script:
     docker exec --tty "$(cat ${container_id})" env TERM=xterm sh -c "echo -e \"[${HOST_GROUP}]\\nlocalhost ansible_ssh_host=127.0.0.1 ansible_connection=local\" > /etc/ansible/hosts"
 # Syntax check
   - >
-    docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook --syntax-check "${PLAYBOOK_LOCATION}" --extra-vars "@/tmp/extra_vars.json" 
+    docker exec "$(cat ${container_id})" env TERM=xterm ANSIBLE_FORCE_COLOR=1 ansible-playbook --syntax-check "${PLAYBOOK_LOCATION}" --extra-vars "@/tmp/extra_vars.json" 
 
 # Test role
   - >
-    docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook "${PLAYBOOK_LOCATION}" --extra-vars "@/tmp/extra_vars.json" 
-
-after_script:
-  - killall -9 python
-  - killall -9 java
-
+    docker exec "$(cat ${container_id})" env TERM=xterm ANSIBLE_FORCE_COLOR=1 ansible-playbook "${PLAYBOOK_LOCATION}" --extra-vars "@/tmp/extra_vars.json" 
 
 #extra log info
 #- >
