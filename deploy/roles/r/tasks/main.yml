@@ -54,6 +54,7 @@
   environment: "{{ r_env_vars }}"
   async: 2400
   poll: 60
+  when: install_r_updates
   tags:
     - r
   when: install_r_updates
