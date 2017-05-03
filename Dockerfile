@@ -10,7 +10,7 @@ RUN yum clean all
 RUN sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/'  /etc/sudoers
 
 # Enable pipelineing for faster build
-RUN sed -i -E 's/(pipelining = ).*/\1True/'  /etc/ansible/ansible.cfg
+RUN sed -i -E 's/(#?)(pipelining = ).*/\2True/'  /etc/ansible/ansible.cfg
 
 VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/usr/sbin/init"]
