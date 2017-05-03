@@ -12,6 +12,8 @@ RUN sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/'  /etc/sudoers
 # Enable pipelineing for faster build
 RUN sed -i -E 's/(#?)(pipelining = ).*/\2True/'  /etc/ansible/ansible.cfg
 
+RUN cat /etc/ansible/ansible.cfg
+
 VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/usr/sbin/init"]
 
