@@ -1,0 +1,24 @@
+---
+- name: Verify install directory
+  file:
+    path: "{{mathematica_install_directory}}/"
+    state: directory
+    mode: og+rx
+    recurse: yes
+
+- name: Copy mathematica insall package from artifacts to install directory
+  sudo: false
+  local_action: "command scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {{mathematica_install_package_name}} {{deploy_user}}@{{ansible_ssh_host}}:{{mathematica_install_directory}}/"
+  args:
+    chdir: "{{mathematica_local_artifact_directory}}/"
+
+- name: Set the install bin to be executable
+  file:
+    path: "{{mathematica_install_directory}}/{{mathematica_install_package_name}}"
+    mode: a+x
+
+- name: Run install bin
+  shell: "./{{mathematica_install_package_name}} -- -silent"
+  args:
+    chdir: "{{mathematica_install_directory}}/"
+    creates: "{{mathematica_install_directory}}/Mathematica/10.4"

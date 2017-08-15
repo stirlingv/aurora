@@ -1,0 +1,5 @@
+---
+# mathematica_install_directory: /usr/local/Wolfram
+mathematica_install_directory: /home/dtwork/deploy_tmp
+mathematica_local_artifact_directory: /artifacts
+mathematica_install_package_name: Mathematica_10.4.1_LINUX.sh

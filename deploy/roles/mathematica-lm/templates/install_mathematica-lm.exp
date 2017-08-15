@@ -1,0 +1,43 @@
+#! /usr/bin/expect
+
+# run the actual installer bin
+spawn {{mathlm_install_directory}}/{{mathlm_unzipped_folder}}/{{mathlm_install_package_name}}
+
+# set a 2 minute timeout
+set timeout 120
+
+# expect "Enter \'c\' to continue or \'e\' to exit the installer \[c\]:" { send "c\r" }
+# expect "Enter your activation key :" { send "{{mathlm_activation_key}}\r" }
+# expect "Enter your MathLM password:" {send "{{mathlm_password}}\r"}
+# expect "Enter the MathLM directory:" {send "{{mathlm_default_location}}\r"}
+# interact
+
+
+# set up your expects
+expect_background {
+    "Enter \'c\' to continue or \'e\' to exit the installer \[c\]:" {
+        send "c\r"
+        exp_continue
+    }
+    "Enter your activation key :" {
+        send "{{mathlm_activation_key}}\r"
+        exp_continue
+    }
+    "Enter your MathLM password:" {
+        send "{{mathlm_password}}\r"
+        exp_continue
+    }
+    "Enter the MathLM directory"{
+        send "{{mathlm_default_location}}\r"
+        exp_continue
+    }
+    "(no action taken)" {
+        exit 0
+        exp_continue
+    }
+}
+# interact return
+
+
+expect eof
+

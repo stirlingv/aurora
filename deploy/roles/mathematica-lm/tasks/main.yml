@@ -1,0 +1,40 @@
+---
+- name: Verify install directory
+  file:
+    path: "{{mathlm_install_directory}}"
+    state: directory
+    mode: og+rx
+    recurse: yes
+
+# - name: Copy mathematica lisence manager zip from artifacts to install directory
+#   copy:
+#     src: "{{mathlm_local_artifact_directory}}/{{mathlm_zip_file_name}}"
+#     dest: "{{mathlm_install_directory}}/"
+# - name: Copy mathematica insall package from artifacts to install directory
+
+- name: Unzip lisence manager
+  unarchive:
+    src: "{{mathlm_local_artifact_directory}}/{{mathlm_zip_file_name}}"
+    dest: "{{mathlm_install_directory}}/"
+
+- name: Set the install bin to be executable
+  file:
+    path: "{{mathlm_install_directory}}/{{mathlm_unzipped_folder}}/{{mathlm_install_package_name}}"
+    mode: a+x
+
+- name: Copy the expect script
+  template:
+    src: "{{mathlm_expect_script_name}}"
+    dest: "{{mathlm_install_directory}}/{{mathlm_expect_script_name}}"
+    mode: 0755
+
+- name: Run lisence manager install expect script
+  shell: "./{{mathlm_expect_script_name}}"
+  args:
+    chdir: "{{mathlm_install_directory}}"
+
+# - name: Run install bin
+#   shell: "./{{mathlm_install_package_name}}"
+#   args:
+#     chdir: "{{mathlm_install_directory}}/{{mathlm_unzipped_folder}}"
+#     creates: "{{mathlm_install_directory}}/MathLM/"

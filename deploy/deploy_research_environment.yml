@@ -93,6 +93,8 @@
     # - gauss
     - gocd
     - stattransfer
+    - mathematica
+    - mathematica-lm
 
 - hosts: research_stata
   become: yes

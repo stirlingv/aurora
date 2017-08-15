@@ -1,0 +1,12 @@
+---
+mathlm_install_directory: /home/dtwork/deploy_tmp
+mathlm_local_artifact_directory: /artifacts
+mathlm_install_package_name: M-UNIX-LM.sh
+mathlm_unzipped_folder: M-MULT-LM-10
+
+mathlm_zip_file_name: MathLM_10.4_MULT.zip
+
+mathlm_activation_key: 3835-4636-HL6AU2
+mathlm_password: L3903-2857
+mathlm_default_location: /usr/local/Wolfram/MathLM 
+mathlm_expect_script_name: install_mathematica-lm.exp
