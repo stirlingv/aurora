@@ -15,15 +15,15 @@ set timeout 120
 
 # set up your expects
 expect_background {
-    "Enter \'c\' to continue or \'e\' to exit the installer \[c\]:" {
+    "Enter \'c\' to continue or \'e\' to exit the installer \[c\]: " {
         send "c\r"
         exp_continue
     }
-    "Enter your activation key :" {
+    "Enter your activation key : " {
         send "{{mathlm_activation_key}}\r"
         exp_continue
     }
-    "Enter your MathLM password:" {
+    "Enter your MathLM password: " {
         send "{{mathlm_password}}\r"
         exp_continue
     }
