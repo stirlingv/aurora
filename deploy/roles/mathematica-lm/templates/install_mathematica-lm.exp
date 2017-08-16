@@ -4,10 +4,10 @@
 spawn {{mathlm_install_directory}}/{{mathlm_unzipped_folder}}/{{mathlm_install_package_name}}
 
 # set a 2 minute timeout
-set timeout 120
+set timeout 20
 
-expect "Enter \'c\' to continue or \'e\' to exit the installer \[c\]:" { send "c\r" }
-expect "Enter your activation key :" { send "{{mathlm_activation_key}}\r" }
+expect "Enter \'c\' to continue" { send "c\r" }
+expect "Enter your activation key:" { send "{{mathlm_activation_key}}\r" }
 expect "Enter your MathLM password:" {send "{{mathlm_password}}\r"}
 expect "Enter the MathLM directory:" {send "{{mathlm_default_location}}\r"}
 interact

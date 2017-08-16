@@ -29,7 +29,7 @@
     mode: 0755
 
 - name: Run lisence manager install expect script
-  shell: "-d ./{{mathlm_expect_script_name}}"
+  shell: "t--verbose ./{{mathlm_expect_script_name}}"
   args:
     chdir: "{{mathlm_install_directory}}"
 
