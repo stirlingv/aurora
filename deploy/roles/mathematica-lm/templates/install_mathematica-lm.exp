@@ -8,7 +8,7 @@ set timeout 20
 
 expect "Enter \'c\' to continue" { send "c\r" }
 expect "activation key" { send "{{mathlm_activation_key}}\r" }
-expect "MathLM password" {send "{{mathlm_activation_key}}\r"}
+expect "MathLM password" {send "{{mathlm_password}}\r"}
 expect "MathLM directory" {send "{{mathlm_default_location}}\r"}
 interact
 
