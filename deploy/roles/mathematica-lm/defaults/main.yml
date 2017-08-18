@@ -6,7 +6,7 @@ mathlm_unzipped_folder: M-MULT-LM-10
 
 mathlm_zip_file_name: MathLM_10.4_MULT.zip
 
-mathlm_activation_key: 3835-4636-H5J3VY
+mathlm_activation_key: "3835-4636-H5J3VY FYI"
 mathlm_password: "8317-147-125:2,2,16,16:1::CB"
 mathlm_default_location: /usr/local/Wolfram/MathLM 
 mathlm_expect_script_name: install_mathematica-lm.exp
