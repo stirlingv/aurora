@@ -10,3 +10,4 @@ mathlm_activation_key: "3835-4636-HL6AU2"
 mathlm_password: "8060-332-999:2,2,16,16:1::CB"
 mathlm_default_location: /usr/local/Wolfram/MathLM
 mathlm_expect_script_name: install_mathematica-lm.exp
+mathlm_linking_directory: /usr/sbin

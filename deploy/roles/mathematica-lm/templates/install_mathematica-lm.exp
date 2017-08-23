@@ -12,6 +12,7 @@ expect "MathLM password" {send "{{mathlm_password}}\r"}
 expect "additional activation key" {send "n\r"}
 expect "Enter the MathLM directory" {send "{{mathlm_default_location}}\r"}
 expect "Do you want to overwrite?" {send "y\r"}
+expect "Enter the linking directory" {send "{{mathlm_linking_directory}}\r"}
 
 expect eof
 
