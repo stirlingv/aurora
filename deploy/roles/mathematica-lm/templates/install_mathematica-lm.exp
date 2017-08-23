@@ -10,7 +10,7 @@ expect "Enter \'c\' to continue" { send "c\r" }
 expect "activation key" { send "{{mathlm_activation_key}}\r" }
 expect "MathLM password" {send "{{mathlm_password}}\r"}
 expect "additional activation key" {send "n\r"}
-expect "MathLM directory" {send "/usr/local/Wolfram/MathLM\r"}
+expect "Enter the MathLM directory" {send "{{mathlm_default_location}}\r"}
 interact
 
 expect eof
