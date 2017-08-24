@@ -21,4 +21,4 @@
   shell: "./{{mathematica_install_package_name}} -- -silent"
   args:
     chdir: "{{mathematica_install_directory}}/"
-    creates: "{{mathematica_install_directory}}/Mathematica/10.4"
+    creates: "{{mathematica_default_location}}/Mathematica/10.4"
