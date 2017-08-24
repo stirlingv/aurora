@@ -3,8 +3,8 @@
 # run the actual installer bin
 spawn {{mathlm_install_directory}}/{{mathlm_unzipped_folder}}/{{mathlm_install_package_name}}
 
-# set a 20 second timeout
-set timeout 20
+# set a 3 minutes timeout
+set timeout 180
 
 expect "Enter \'c\' to continue" { send "c\r" }
 expect "activation key" { send "{{mathlm_activation_key}}\r" }
