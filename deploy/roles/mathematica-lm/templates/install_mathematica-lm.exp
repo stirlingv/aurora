@@ -3,7 +3,7 @@
 # run the actual installer bin
 spawn {{mathlm_install_directory}}/{{mathlm_unzipped_folder}}/{{mathlm_install_package_name}}
 
-# set a 2 minute timeout
+# set a 20 second timeout
 set timeout 20
 
 expect "Enter \'c\' to continue" { send "c\r" }
@@ -13,6 +13,7 @@ expect "additional activation key" {send "n\r"}
 expect "Enter the MathLM directory" {send "{{mathlm_default_location}}\r"}
 expect "Do you want to overwrite?" {send "y\r"}
 expect "Enter the linking directory" {send "{{mathlm_linking_directory}}\r"}
+expect "Do you want to overwrite?" {send "y\r"}
 expect "Do you want to overwrite?" {send "y\r"}
 
 expect eof
