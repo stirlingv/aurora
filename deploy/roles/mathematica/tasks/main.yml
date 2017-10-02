@@ -18,7 +18,6 @@
     mode: a+x
 
 - name: Run install bin
-  shell: "./{{mathematica_install_package_name}} -- -silent"
+  command: "{{mathematica_install_directory}}/{{mathematica_install_package_name}} -- -silent"
   args:
-    chdir: "{{mathematica_install_directory}}/"
-    creates: "{{mathematica_default_location}}/Mathematica/10.4"
+    chdir: "{{mathematica_default_location}}/"
