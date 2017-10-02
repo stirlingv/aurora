@@ -19,5 +19,6 @@
 
 - name: Run install bin
   command: "{{mathematica_install_directory}}/{{mathematica_install_package_name}} -- -silent"
-  args:
-    chdir: "{{mathematica_default_location}}/"
+  # args:
+  #   chdir: "{{mathematica_default_location}}/"
+  #   creates: ""
