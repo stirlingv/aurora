@@ -18,7 +18,7 @@
     mode: a+x
 
 - name: Run install bin
-  shell: "./{{mathematica_install_package_name}} -- -targetdir={{mathematica_default_location}} -silent"
+  shell: "./{{mathematica_install_package_name}} -- -silent -targetdir={{mathematica_default_location}}"
   args:
     chdir: "{{mathematica_install_directory}}/"
   #   creates: ""
