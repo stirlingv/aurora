@@ -17,8 +17,13 @@
     path: "{{mathematica_install_directory}}/{{mathematica_install_package_name}}"
     mode: a+x
 
+- name: Delete Previous Install
+  file:
+    state: absent
+    path: "{{ mathematica_default_location }}/"
+
 - name: Run install bin
-  shell: "./{{mathematica_install_package_name}} -- -silent -targetdir={{mathematica_default_location}}"
+  shell: "./{{mathematica_install_package_name}} -- -silent" #-targetdir={{mathematica_default_location}}"
   args:
     chdir: "{{mathematica_install_directory}}/"
   #   creates: ""
