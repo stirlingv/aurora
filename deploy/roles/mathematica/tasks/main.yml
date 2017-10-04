@@ -6,24 +6,26 @@
     mode: og+rx
     recurse: yes
 
-- name: Copy mathematica insall package from artifacts to install directory
+- name: Copy mathematica 10.4 insall package from artifacts to install directory
   sudo: false
-  local_action: "command scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {{mathematica_install_package_name}} {{deploy_user}}@{{ansible_ssh_host}}:{{mathematica_install_directory}}/"
+  local_action: "command scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {{mathematica_10_4_install_package_name}} {{deploy_user}}@{{ansible_ssh_host}}:{{mathematica_install_directory}}/"
+  args:
+    chdir: "{{mathematica_local_artifact_directory}}/"
+
+- name: copy mathematica 11.1 insall package from artifacts to install directory
+  sudo: false
+  local_action: "command scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {{mathematica_11_1_install_package_name}} {{deploy_user}}@{{ansible_ssh_host}}:{{mathematica_install_directory}}/"
   args:
     chdir: "{{mathematica_local_artifact_directory}}/"
 
 - name: Set the install bin to be executable
   file:
-    path: "{{mathematica_install_directory}}/{{mathematica_install_package_name}}"
+    path: "{{mathematica_install_directory}}/{{mathematica_10_4_install_package_name}}"
     mode: a+x
 
-- name: Delete Previous Install
-  file:
-    state: absent
-    path: "{{ mathematica_default_location }}/"
-
-- name: Run install bin
-  shell: "./{{mathematica_install_package_name}} -- -silent" #-targetdir={{mathematica_default_location}}"
+- name: Run 10.4 install bin
+  shell: "./{{mathematica_10_4_install_package_name}} -- -silent"
   args:
     chdir: "{{mathematica_install_directory}}/"
-  #   creates: ""
+
+
