@@ -5,36 +5,48 @@
     state: directory
     mode: og+rx
     recurse: yes
+  tags: mathematica
 
-- name: Copy mathematica install packages from artifacts to install directory
+- name: Copy mathematica 10.4 install packages from artifacts to install directory
   sudo: false
-  local_action: "command scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {{item}} {{deploy_user}}@{{ansible_ssh_host}}:{{mathematica_install_directory}}/"
+  local_action: "command scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {{mathematica_10_4_install_package_name}} {{deploy_user}}@{{ansible_ssh_host}}:{{mathematica_install_directory}}/"
   args:
     chdir: "{{mathematica_local_artifact_directory}}/"
-  with_items:
-    - "{{mathematica_10_4_install_package_name}}"
-    - "{{mathematica_11_1_install_package_name}}"
+  when: install_mathematica_10_4
+  tags: mathematica
 
-# - name: copy mathematica 11.1 insall package from artifacts to install directory
-#   sudo: false
-#   local_action: "command scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {{mathematica_11_1_install_package_name}} {{deploy_user}}@{{ansible_ssh_host}}:{{mathematica_install_directory}}/"
-#   args:
-#     chdir: "{{mathematica_local_artifact_directory}}/"
+- name: Copy mathematica 11.1.1 install packages from artifacts to install directory
+  sudo: false
+  local_action: "command scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {{mathematica_11_1_install_package_name}} {{deploy_user}}@{{ansible_ssh_host}}:{{mathematica_install_directory}}/"
+  args:
+    chdir: "{{mathematica_local_artifact_directory}}/"
+  when: install_mathematica_11_1_1
+  tags: mathematica
 
-- name: Set the install bin to be executable
+- name: Set the 10.4 install bin to be executable
   file:
-    path: "{{mathematica_install_directory}}/{{item}}"
+    path: "{{mathematica_install_directory}}/{{mathematica_10_4_install_package_name}}"
     mode: a+x
-  with_items:
-    - "{{mathematica_10_4_install_package_name}}"
-    - "{{mathematica_11_1_install_package_name}}"
+  when: install_mathematica_10_4
+  tags: mathematica
+
+- name: Set the 11.1.1 install bin to be executable
+  file:
+    path: "{{mathematica_install_directory}}/{{mathematica_11_1_install_package_name}}"
+    mode: a+x
+  when: install_mathematica_11_1_1
+  tags: mathematica
 
 - name: Run 10.4 install bin
-  shell: "./{{item}} -- -silent"
+  shell: "./{{mathematica_10_4_install_package_name}} -- -silent"
   args:
     chdir: "{{mathematica_install_directory}}/"
-  with_items:
-    - "{{mathematica_10_4_install_package_name}}"
-    - "{{mathematica_11_1_install_package_name}}"
+  when: install_mathematica_10_4
+  tags: mathematica
 
-
+- name: Run 11.1.1 install bin
+  shell: "./{{mathematica_11_1_install_package_name}} -- -silent"
+  args:
+    chdir: "{{mathematica_install_directory}}/"
+  when: install_mathematica_11_1_1
+  tags: mathematica
