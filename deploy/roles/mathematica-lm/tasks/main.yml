@@ -5,6 +5,7 @@
     state: directory
     mode: og+rx
     recurse: yes
+  tags: mathematica
 
 # - name: Copy mathematica lisence manager zip from artifacts to install directory
 #   copy:
@@ -16,22 +17,26 @@
   unarchive:
     src: "{{mathlm_local_artifact_directory}}/{{mathlm_zip_file_name}}"
     dest: "{{mathlm_install_directory}}/"
+  tags: mathematica
 
 - name: Set the install bin to be executable
   file:
     path: "{{mathlm_install_directory}}/{{mathlm_unzipped_folder}}/{{mathlm_install_package_name}}"
     mode: a+x
+  tags: mathematica
 
 - name: Copy the expect script
   template:
     src: "{{mathlm_expect_script_name}}"
     dest: "{{mathlm_install_directory}}/{{mathlm_expect_script_name}}"
     mode: 0755
+  tags: mathematica
 
 - name: Run lisence manager install expect script
   shell: "./{{mathlm_expect_script_name}} --verbose"
   args:
     chdir: "{{mathlm_install_directory}}"
+  tags: mathematica
 
 # - name: Run install bin
 #   shell: "./{{mathlm_install_package_name}}"
