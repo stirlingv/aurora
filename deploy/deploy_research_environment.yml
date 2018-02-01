@@ -136,7 +136,7 @@
 
     - name: Install texlive
       yum:
-        name: texlive
+        name: texlive-scheme-full
         state: present
 
 - hosts: research_sas
