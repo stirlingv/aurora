@@ -67,7 +67,7 @@
     - name: Install texlive
       yum:
         name: texlive
-        state: present
+        state: latest
 
 - hosts: research_eod
   become: yes
