@@ -33,7 +33,9 @@
     - python-libs
 
 - name: Install beakerx
-  command: beakerx-install
+  shell: beakerx-install
+  args:
+    chdir: python3_pip_bin
   when: install_python
   tags:
     - python-libs
