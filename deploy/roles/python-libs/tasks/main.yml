@@ -33,7 +33,7 @@
     - python-libs
 
 - name: Install beakerx
-  shell: beakerx-install
+  shell: beakerx install
   args:
     chdir: "{{ python3_lib_location }}"
   when: install_python
