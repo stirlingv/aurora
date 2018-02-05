@@ -16,4 +16,4 @@ python3_pip_bin: /usr/bin/pip3.4
 
 python_package_mode: present
 
-python3_lib_location: /usr/lib/python3.4/site-packages
+python3_lib_location: /usr/lib/python3.4/site-packages/beakerx
