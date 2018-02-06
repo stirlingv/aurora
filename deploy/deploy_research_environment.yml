@@ -63,6 +63,7 @@
     - stattransfer
     - sublime
     - ultra-edit
+    - texlive
   post_tasks:
     - name: Install texlive
       yum:
@@ -136,7 +137,7 @@
 
     - name: Install texlive
       yum:
-        name: texlive
+        name: texlive-scheme-full
         state: present
 
 - hosts: research_sas
