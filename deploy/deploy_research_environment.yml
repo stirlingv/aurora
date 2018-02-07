@@ -64,11 +64,11 @@
     - sublime
     - ultra-edit
     - texlive
-  post_tasks:
-    - name: Install texlive
-      yum:
-        name: texlive
-        state: latest
+  # post_tasks:
+  #   - name: Install texlive
+  #     yum:
+  #       name: texlive
+  #       state: latest
 
 - hosts: research_eod
   become: yes

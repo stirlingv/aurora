@@ -1,1 +1,3 @@
-see gauss role for example
+---
+texlive_bin_directory: /usr/bin/
+texlive_local_bin_directory: /artifacts

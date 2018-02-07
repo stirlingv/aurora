@@ -1,0 +1,34 @@
+---
+- name: Verify install directory
+  file:
+    path: "{{texlive_bin_directory}}/"
+    state: directory
+  tags: upgrade-texlive
+
+# - name: Install expect
+#   yum:
+#     name: expect
+#     state: present
+
+- name: Untar the tarball
+  unarchive:
+    src: "{{texlive_local_bin_directory}}/install-tl-unx.tar.gz"
+    dest: "{{texlive_bin_directory}}/"
+  tags: upgrade-texlive
+
+- name: Run texlive install
+  shell: install-tl -no-gui
+  args: 
+    chdir: "{{texlive_bin_directory}}"
+  tags: upgrade-texlive
+# - name: copy the expect script
+#   template:
+#     src: install_gauss.exp
+#     dest: "{{texlive_bin_directory}}/install_gauss.exp"
+#     mode: a+rx
+
+# - name: Run gauss expect script
+#   shell: "./install_gauss.exp"
+#   args:
+#     chdir: "{{texlive_bin_directory}}"
+#   when: custom_repo
