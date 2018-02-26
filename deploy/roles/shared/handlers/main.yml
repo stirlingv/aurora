@@ -36,6 +36,12 @@
     name: "{{ pp_servicename }}"
     state: restarted
 
+# rhel7
+- name: reload-daemon
+  systemd:
+    name: "{{ pp_servicename }}"
+    daemon_reload: yes
+
 - name: restart apache
   shell: "service httpd24-httpd restart"
 
