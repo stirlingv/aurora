@@ -1,0 +1,3 @@
+---
+- name: folder sizes in parent folder
+  shell: "du -h --max-depth=1 {{ parent_folder_location }} > {{ output_file_locaiton }}_{{ date_stamp }}.txt"

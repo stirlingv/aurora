@@ -1,0 +1,4 @@
+---
+parent_folder_location: /home/dtdata
+output_file_locaiton: /home/dtdata/test_output
+date_stamp: lookup('pipe', 'date %Y%M%d')
