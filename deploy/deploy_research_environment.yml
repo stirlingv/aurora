@@ -147,6 +147,15 @@
     - gocd
     - stattransfer
 
+  post_tasks:
+    - name: Lockdown r executable on SAS server 
+      file:
+        dest: /usr/lib64/R/etc/{{ item }}
+        mode: 400
+      with_items:
+        - ldpaths
+        - Makeconf
+
 - hosts: research_spss
   become: yes
   become_method: sudo
