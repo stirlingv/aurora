@@ -155,6 +155,7 @@
       with_items:
         - ldpaths
         - Makeconf
+      tage: lockdown 
 
 - hosts: research_spss
   become: yes
