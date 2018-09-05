@@ -107,7 +107,7 @@
     - stattransfer
     - r-core
     - r-libs
-    -r
+    - r
 
 - hosts: research_python
   become: yes
