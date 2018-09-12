@@ -1,11 +1,8 @@
 ---
-#Environment Variable for running role on travis-CI
-install_ppas: True
-
 # Extensions to install
 pp_extensions:
-  - postgis2_94
-
+  - postgis2_10
+install_edb: False
 # Example privileges setting, this revokes all privileges from
 # the PUBLIC role on the public schema in template1, and thus
 # also in all new databases created.
@@ -54,3 +51,14 @@ pp_dba_scripts:
       $$
       SECURITY DEFINER
       LANGUAGE plpgsql;
+
+pp_servicename: postgresql-10
+pg_admin_group_names:
+  - vagrant
+pg_conf_file: /var/lib/pgsql/10/data/postgresql.conf
+pp_log_directory: /var/lib/pgsql/10/data/pg_log
+pp_datadir: /var/lib/pgsql/10/data
+
+# Replication user
+replication_user: replication
+replication_password: replication

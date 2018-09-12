@@ -8,6 +8,26 @@
   tags:
     - stata
 
+- name: Ensure no installed files exist
+  file:
+    path: "{{ stata_install_directory }}/{{ item }}"
+    state: absent
+  with_items:
+    - installed.150
+    - stata
+    - xstata
+    - isstata.150
+    - ado.tar
+    - ado.tar.Z
+    - base.tar
+    - base.tar.Z
+    - bins.tar
+    - bins.tar.Z
+    - docs.tar
+    - docs.tar.Z
+  tags:
+    - stata
+
 - name: Unarchive the stata tarball
   unarchive:
     copy: yes
@@ -25,13 +45,6 @@
   tags:
     - stata
 
-- name: Install xauth dependency
-  yum:
-    name: xorg-x11-xauth
-    state: present
-  tags:
-    - stata
-
 - name: Install pip
   yum:
     name: python-pip
@@ -42,6 +55,7 @@
 - name: pip install pexpect
   pip:
     name: pexpect
+    executable: /usr/bin/pip
   tags:
     - stata
 
@@ -49,6 +63,7 @@
   expect:
     chdir: "{{ stata_install_directory }}"
     command: /bin/bash -c ./install
+    timeout: 200
     responses:
         '.*Do you wish to continue.*': 'y'
         '.*Okay to proceed.*': 'y'
@@ -58,12 +73,26 @@
   tags:
     - stata
 
+- name: Add the update do file
+  template:
+    src: stataupdate.do.j2
+    dest: "{{ stata_install_directory }}/stataupdate.do"
+  when: stata_patch_update
+  tags:
+    - stata
+
+- name: Run the update do file (checks for updates, installs and restarts stata if updated)
+  shell: "{{ stata_install_directory }}/stata-mp -b {{ stata_install_directory }}/stataupdate.do"
+  when: custom_repo and stata_patch_update
+  tags:
+    - stata
+
 - name: Update permissions
   file:
     path: "{{ stata_install_directory }}"
     recurse: yes
     state: directory
-    mode: 0755
+    mode: "0755"
   tags:
     - stata
 
@@ -98,6 +127,14 @@
     state: link
     src: "{{ stata_install_directory }}"
     dest: "{{ stata_directory }}"
+  tags:
+    - stata
+
+- name: Copy sysprofile
+  template:
+    src: sysprofile.do.j2
+    dest: "{{ stata_directory }}/sysprofile.do"
+    mode: 0644
   tags:
     - stata
 

@@ -9,7 +9,7 @@
 - name: Install R-core
   yum:
     name: R-core
-    state: latest
+    state: "{{ r_core_state }}"
     disable_gpg_check: yes
   register: r_core_updated
   tags:
@@ -34,7 +34,7 @@
 - name: Install base packages
   yum:
     name: "{{ item }}"
-    state: latest
+    state: "{{ r_core_state }}"
     disable_gpg_check: yes
   with_items:
     - R-devel
@@ -94,7 +94,7 @@
 - name: Update existing R packages
   command: /usr/bin/Rscript --slave --no-save --no-restore-history -e "update.packages(repos=c('http://cran.rstudio.com/'),ask=FALSE,checkBuilt=TRUE);"
   environment: "{{ r_env_vars }}"
-  async: 2400
+  async: 3600
   poll: 60
   tags:
     - r
