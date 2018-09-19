@@ -108,6 +108,9 @@
     - r-core
     - r-libs
     - r
+    - r-studio-desktop
+    - r-studio-server
+    - r-studio-server-config
 
 - hosts: research_python
   become: yes
