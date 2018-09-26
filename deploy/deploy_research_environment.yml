@@ -149,6 +149,8 @@
     - gocd
     - stattransfer
     - r
+    - r-core
+    - r-libs
 
   tasks:
   - name: Set r executable to octl 444
