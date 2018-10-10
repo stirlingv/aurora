@@ -6,4 +6,4 @@ ue_uninstall_list:
   - UltraEdit-15.1-0.8.x86_64
   - UltraEdit-16.1-0.22.x86_64
 
-ue_install_version: UltraEdit-18.0-0.40.x86_64
+ue_install_version: UltraEdit
