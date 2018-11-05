@@ -55,7 +55,7 @@
         state: present
 
     - name: install git gui
-      yum:
+      apt:
         name: git-gui gitk
         state: present
       tags: git
