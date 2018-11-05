@@ -54,6 +54,12 @@
         name: git
         state: present
 
+    - name: install git gui
+      yum:
+        name: git-gui gitk
+        state: present
+      tags: git
+
 - hosts: research_ancillary_services
   become: yes
   become_method: sudo
