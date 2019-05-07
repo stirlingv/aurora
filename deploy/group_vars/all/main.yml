@@ -246,3 +246,8 @@ db_automation_package_state: present
 #====================#
 mesos_upgrade: False
 marathon_upgrade: False
+
+#====================#
+### Tag for RH7    ###
+#====================#
+rh7: False

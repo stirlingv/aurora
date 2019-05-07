@@ -16,4 +16,4 @@
   with_items:
     - emacs-common-ess.noarch
     - emacs-ess.noarch
-  when: custom_repo
+  when: custom_repo and not rh7
