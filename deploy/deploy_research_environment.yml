@@ -71,6 +71,26 @@
         name: texlive
         state: present
 
+- hosts: research_ancillary_services_rh7
+  become: yes
+  become_method: sudo
+  roles:
+    - python
+    - python36-scl
+    - python-libs
+    - umask
+    - devtools7
+    - open_officeRH7
+    - evince
+    - stattransfer
+    - sublime
+    - ultra-editRH7
+  post_tasks:
+    - name: Install texlive
+      yum:
+        name: texlive
+        state: present
+
 - hosts: research_eod
   become: yes
   become_method: sudo

@@ -4,6 +4,7 @@ python_dep_packages:
 python_packages:
   - requests
   - cookiecutter
+  - gdown
 
 python3_packages:
   - requests
