@@ -82,8 +82,8 @@
     - devtools7
     - open_officeRH7
     - evince
-    - stattransfer
-    - sublime
+    - stattransfer14
+    - sublime3
     - ultra-editRH7
   post_tasks:
     - name: Install texlive
