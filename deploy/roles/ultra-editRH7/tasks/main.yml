@@ -18,6 +18,6 @@
     - UltraEdit
 
 - name: Activate Ultra Edit
-  shell: "uex --register-silent={{ ue_license_id }}:{{ ue_activation_pw }}"
+  command: uex --register-silent={{ ue_license_id }}:{{ ue_activation_pw }}
   tags:
     - UltraEdit
