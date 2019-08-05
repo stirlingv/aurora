@@ -37,6 +37,12 @@
 - name: restart shiny-server
   command: "restart shiny-server"
 
+- name: restart postgres
+  become: True
+  service:
+    name: "{{ pp_servicename }}"
+    state: restarted
+
 - name: restart apache
   shell: "service httpd24-httpd restart"
 

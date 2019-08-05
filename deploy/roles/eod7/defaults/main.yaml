@@ -10,7 +10,6 @@ eod_upgrade: False
 eod_installer: ecs-13.8.9-linux-x64.bin
 eod_upgrader:
 eod_installer_directory: '/artifacts'
-#eod_installer_directory: '/tmp'
 custom_repo: True
 
 eod_client_ports:
@@ -26,7 +25,6 @@ eod_admins:
   - vagrant
   - admin
 
-#restricted_group_name: vagrant
 restricted_group_name: admin
 
 eod_install_directory: '/usr/local/eod'
@@ -49,10 +47,20 @@ eod_license_server_cache:
 eod_license_keys:
  - AAAA-BBBBBB-CCCCCC-DDDD-EEEEEE-FFF -0123456789 123
 
+# GDM Settings
+# This example disables the login user list
+gconf_settings:
+  -
+    setting: "/apps/gdm/simple-greeter/disable_user_list"
+    type: "bool"
+    value: "true"
+
+eod_greeter_include: false
+
 iptables_config: True
 deploy_iptables: True
-iptables_chain: TEST-INPUT
-#iptables_chain: INPUT
+#iptables_chain: TEST-INPUT
+iptables_chain: INPUT
 
 install_eod: True
 eod_restart: True

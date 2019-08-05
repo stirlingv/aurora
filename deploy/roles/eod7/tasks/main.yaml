@@ -24,7 +24,7 @@
   when: eod_upgrade
   tags:
     - eod
-
+    
 - name: Configure node.cfg
   template:
     src: node.cfg.j2
@@ -93,16 +93,44 @@
     - restart eod
   tags:
     - eod
+    
+# TODO: Add template for node.cfg
 
-- name: install "X Window System 
-  shell: yum -y groupinstall "X Window System"
+### Install and configure Desktop Environment
+
+- name: install X Window System
+  yum:
+    name: "@X Window System"
+    state: present
   tags:
     - eod
 
-- name: install gdm (gnome display manager)
-  command: yum -y install gdm
+- name: install Desktop
+  yum:
+    name: "@gnome-desktop"
+    state: present
   tags:
     - eod
+
+#- name: install Server with GUI 
+#  yum:
+#    name: "@^Server with GUI"
+#    state: present
+#  register: serverwithgui
+#  tags:
+#    - eod
+#- debug: var="{{ serverwithgui.stdout }}"
+
+#- name: install MATE (GNOME 2) Desktop 
+#  yum:
+#    name: "@MATE Desktop"
+#    state: present
+#  register: matedesktop
+#  tags:
+#    - eod
+#- debug: var="{{ matedesktop.stdout }}"
+- name: install epel-latest repo
+  command: yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 
 - name: install XFCE4 Desktop 
   yum:
@@ -111,27 +139,17 @@
   register: xfce4desktop
   tags:
     - eod
-
-- name: update libraries for MATE installation
-  command: yum -y update --enablerepo=epel-testing
-  tags:
-    - eod
-
-# MATE fix for RHEL 7.5, 7.6               
-- name: install dnf (RedHat yum4/yum replacement)
-  shell: yum install -y dnf   
-  tags:
-    - eod             
-
-- name: apply dnf advisory fix for libgtop2 dependency
-  shell: dnf upgrade --advisory=EDORA-EPEL-2018-417249babc
-  tags:
-    - eod
+#- debug: var="{{ xfce4desktop.stdout }}"
 
 - name: install MATE (GNOME 2) Desktop 
   command: yum -y groupinstall "MATE Desktop"
-  tags:
-    - eod
+#  yum:
+#    name: "@MATE Desktop"
+#    state: present
+#  register: matedesktop
+#  tags:
+#    - eod
+#- debug: var="{{ matedesktop.stdout }}"
 
 #- name: install General Purpose Desktop
 - name: install Fonts
@@ -155,6 +173,7 @@
     mode: 064
   notify:
     - restart gdm
+    mode: 0644
   tags:
     - eod
 
@@ -173,7 +192,6 @@
     - restart gdm
   tags:
     - eod
-    
 - name: configure inittab
   template:
     src: inittab
@@ -239,29 +257,6 @@
   changed_when: gdm_status.rc == 0
   tags:
     - eod
-
-- name: Run eodpatch expect inline - required before running /usr/local/eod/bin/otecs ...
-  shell: |
-    set timeout 120
-    spawn /usr/local/eod/bin/patch
-
-    match_max 100000
-    expect -exact "\r
-    patch - Patch script for Exceed Connection Server 13.8\r
-    \r
-    \r
-    Proceed to patch permissions bits for /usr/local/eod/bin/sys directory and /usr/local/eod/bin/sys/ewebhost file?\r
-    \[y\]es or \[n\]o, \[Enter\] for no: "
-    send -- "y\r"
-    #expect eof
-    #expect eod
-    exit 0
-  args:
-    executable: /bin/expect
-  tags:
-    - eod
-
-### Ensure EOD starts on boot
 - name: Check if EOD is configured to run on boot
   shell: "{{ eod_install_directory }}/bin/otecs bootstatus"
   register: eod_bootstatus
@@ -288,14 +283,25 @@
   tags:
     - eod
 
-- name: Allow admins to read EOD logs
+- name: Set recursive admin permissions on log file
   acl:
-    path: "{{ item }}"
+    path: "{{ eod_install_directory }}"
     entity: "{{ restricted_group_name }}"
     etype: group
-    permissions: rX
+    permissions: rwX
+    recursive: yes
     state: present
-  with_items: "{{ eod_install_directory }}/log"
+  tags:
+    - eod
+
+- name: Set default admin permissions on log file
+  acl:
+    path: "{{ eod_install_directory }}"
+    entity: "{{ restricted_group_name }}"
+    etype: group
+    permissions: rwX
+    default: yes
+    state: present
   tags:
     - eod
 
@@ -369,3 +375,4 @@
     dest: "{{ eod_prechannel_location }}"
   tags:
     - eod
+
