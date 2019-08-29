@@ -17,7 +17,7 @@
     - UltraEdit
 
 - name: Update License Information
-  command: "uex --register-silent={{ue_license_id}}:{{ue_password}}"
+  command: "uex --register-silent=<{{ue_license_id}}>:<{{ue_password}}>"
   when: custom_repo
   tags: 
     - UltraEdit  
