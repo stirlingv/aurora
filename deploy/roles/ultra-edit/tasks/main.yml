@@ -1,18 +1,23 @@
 - name: Uninstall Ultra Edit
   yum: 
-    name: "{{ item }}" #UltraEdit.x86_64
+    name: "{{ ue_rpm }}" #UltraEdit.x86_64
     state: removed
     disable_gpg_check: yes
-  with_items: "{{ ue_uninstall_list }}"
-  when: custom_repo
+    when: custom_repo
   tags:
     - UltraEdit
 
 - name: Install Ultra Edit
   yum:
-    name: "{{ ue_install_version }}" #UltraEdit.x86_64
+    name: "{{ ue_rpm }}" #UltraEdit.x86_64
     state: present
     disable_gpg_check: yes
   when: custom_repo
   tags:
     - UltraEdit
+
+- name: Update License Information
+  command: "uex --register-silent={{ue_license_id}}:{{ue_password}}"
+  when: custom_repo
+  tags: 
+    -UltraEdit
