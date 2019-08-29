@@ -16,7 +16,7 @@
   tags:
     - UltraEdit
 
-- name: Update License Information
+- name: Activate Ultra Edit
   shell: "uex --register-silent={{ue_license_id}}:{{ue_password}}"
   when: custom_repo
   tags: 

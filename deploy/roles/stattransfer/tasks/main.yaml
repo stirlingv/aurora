@@ -1,10 +1,10 @@
 ---
-- name: Install compat-libstdc
-  yum:
-    name: compat-libstdc++-33-3.2.3-69.el6
-    state: present
-  tags:
-    - stattransfer
+# - name: Install compat-libstdc
+#   yum:
+#     name: compat-libstdc++-33-3.2.3-69.el6
+#     state: present
+#   tags:
+#     - stattransfer
 
 - name: Verify install directory
   file:
