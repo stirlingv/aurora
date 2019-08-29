@@ -20,4 +20,4 @@
   command: "uex --register-silent={{ue_license_id}}:{{ue_password}}"
   when: custom_repo
   tags: 
-    -UltraEdit  
+    - UltraEdit  
