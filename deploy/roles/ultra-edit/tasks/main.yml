@@ -1,9 +1,10 @@
 - name: Uninstall Ultra Edit
   yum: 
-    name: "{{ ue_rpm }}" #UltraEdit.x86_64
+    name: "{{ item }}" #UltraEdit.x86_64
     state: removed
     disable_gpg_check: yes
-    when: custom_repo
+  with_items: "{{ ue_uninstall_list }}"
+  when: custom_repo
   tags:
     - UltraEdit
 
@@ -20,4 +21,4 @@
   command: "uex --register-silent={{ue_license_id}}:{{ue_password}}"
   when: custom_repo
   tags: 
-    -UltraEdit
+    -UltraEdit  
