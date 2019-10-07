@@ -110,7 +110,7 @@
       '.*Enter what you would like the first line to say:.*': '{{ stata_line_one }}'
       '.*Enter what you would like the second line to say:.*': '{{ stata_line_two  }}'
       '.*Is this okay.*': 'Y'
-      '.*Okay to proceed.*':'Y'
+      '.*Okay to proceed.*': 'Y'
   when: custom_repo
   tags:
     - stata
