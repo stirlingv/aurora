@@ -122,13 +122,13 @@
   tags:
     - stata
 
-- name: Create symlink
-  file:
-    state: link
-    src: "{{ stata_install_directory }}"
-    dest: "{{ stata_directory }}"
-  tags:
-    - stata
+# - name: Create symlink
+#   file:
+#     state: link
+#     src: "{{ stata_install_directory }}"
+#     dest: "{{ stata_directory }}"
+#   tags:
+#     - stata
 
 - name: Copy sysprofile
   template:
