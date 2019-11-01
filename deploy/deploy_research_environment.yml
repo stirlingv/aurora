@@ -185,3 +185,9 @@
     with_items:
       - libicu
       - libselinux-python
+
+- hosts: research_environment_rh7
+  become: yes
+  become_method: sudo
+  roles:
+    - gocd
