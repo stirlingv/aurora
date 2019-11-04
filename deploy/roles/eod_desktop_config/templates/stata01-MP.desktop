@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Icon={{shared_icon_location}}/stata16.png
+Exec=ssh -Y {{stata_server}} /usr/local/stata/xstata-mp
+Name=Stata 16
+Categories=System
