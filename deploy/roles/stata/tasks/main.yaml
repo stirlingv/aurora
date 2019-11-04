@@ -136,7 +136,7 @@
     dest: "{{ stata_directory }}/sysprofile.do"
     mode: 0644
   tags:
-    - stata
+    - stata_sysprofile
 
 - name: Remove the tarball
   file:
