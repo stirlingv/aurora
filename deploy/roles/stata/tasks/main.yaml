@@ -128,7 +128,7 @@
     src: "{{ stata_install_directory }}"
     dest: "{{ stata_directory }}"
   tags:
-    - stata_symlink
+    - stata
 
 - name: Copy sysprofile
   template:
@@ -136,7 +136,7 @@
     dest: "{{ stata_directory }}/sysprofile.do"
     mode: 0644
   tags:
-    - stata_sysprofile
+    - stata
 
 - name: Remove the tarball
   file:
