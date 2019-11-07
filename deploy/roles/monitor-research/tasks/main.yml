@@ -2,20 +2,174 @@
 - name: set variable for dated text file
   set_fact: 
     dated_file_name: "{{ research_monitor_output_file_locaiton }}/{{ date_stamp }}.txt"
+  tags: nightly
 
 - name: create empty logfile
   file:
     dest: "{{ dated_file_name }}"
     state: touch
+  tags: nightly
 
-- name: folder sizes in parent folder
-  shell: "du -h --max-depth=1 {{ research_monitor_parent_folder_location }} >> {{ dated_file_name }}"
+# - name: folder sizes in parent folder
+#   shell: "du -h --max-depth=1 {{ research_monitor_parent_folder_location }} >> {{ dated_file_name }}"
+#   tags: nightly
 
-- name: folder size in experian folder
-  shell: "du -h --max-depth=1 {{ research_monitor_experian_location }} >> {{ dated_file_name }}"
+# - name: folder size in experian folder
+#   shell: "du -h --max-depth=1 {{ research_monitor_experian_location }} >> {{ dated_file_name }}"
+#   tags: nightly
 
-- name: folder size in CCDB folder
-  shell: "du -h --max-depth=1 {{ research_monitor_ccdb_location }} >> {{ dated_file_name }}"
+# - name: folder size in CCDB folder
+#   shell: "du -h --max-depth=1 {{ research_monitor_ccdb_location }} >> {{ dated_file_name }}"
+#   tags: nightly
 
+- name: folder sizes for nightly monitor script for research environment
+  shell: "du -h --max-depth=1 {{ item }} >> {{ dated_file_name }}"
+  with_items: "{{ research_nightly_monitor_locations }}"
+  tags: nightly
+
+- name: set variable for dated text file for cloud sizes
+  set_fact:
+    cloud_file_name: "{{ research_cloud_output }}/{{ date_stamp }}.txt"
+  tags: cloud_sizes
+    
+- name: folder size for cloud 
+  shell: "du -sh {{ item }} >> {{ cloud_file_name }}"
+  with_items: "{{ research_cloud_folder_locations }}"
+  tags: cloud_sizes
 # - name: folder size of user folder
 #   shell: "du -h --max-depth=1 {{ research_monitor_user_location }} >> {{ dated_file_name }}"
+
+- name: set variable for dated text file for cloud sizes
+  set_fact:
+    cloud_dates_file_name: "{{ research_cloud_output }}/files_not_accessed_6mo_home_dtwork_{{ date_stamp }}.txt"
+  tags: cloud_dates
+
+# - name: identify files older than 6 months
+#   shell: 'find {{ item }} -atime +180 -type f printf "\""{{ print_format }}"\"" >> {{ cloud_dates_file_name }}'
+#   with_items: "{{ research_data_folders }}"
+#   tags: cloud_dates
+
+- name: identify files older than 6 months (greater than 5g)
+  find: 
+    paths: "{{ item }}"
+    recurse: yes
+    age: 6m
+    age_stamp: atime
+    size: 5g
+    file_type: file
+  register: find_results
+  with_items: "{{ research_data_folders }}"
+  tags: cloud_dates
+
+- name: write to file
+  lineinfile: 
+    dest: "{{ cloud_dates_file_name }}"
+    line: "{{ item.1.atime | float_to_date }} {{ item.1.size | filesizeformat(True) }} {{item.1.pw_name}} {{ item.1.path }}"
+    create: yes
+    owner: root
+    group: "_grp_dataadmins"
+    mode: u+rx,g+rwx,o+rx
+  with_subelements:
+    - "{{ find_results.results }}"
+    - files
+  tags: cloud_dates
+
+- name: identify files older than 6 months (smaller than 5g)
+  find: 
+    paths: "{{ item }}"
+    recurse: yes
+    age: 6m
+    age_stamp: atime
+    size: -5g
+    file_type: file
+  register: find_results_small
+  with_items: "{{ research_data_folders }}"
+  tags: cloud_dates
+
+- name: write to file
+  lineinfile: 
+    dest: "{{ cloud_dates_file_name }}"
+    line: "{{ item.1.atime | float_to_date }} {{ item.1.size | filesizeformat(True) }} {{ item.1.path }}"
+    create: yes
+    owner: root
+    group: "_grp_dataadmins"
+    mode: u+rx,g+rwx,o+rx
+  with_subelements:
+    - "{{ find_results_small.results }}"
+    - files
+  tags: cloud_dates
+
+- name: set variable for dated text file for acl info
+  set_fact:
+    acl_file_name: "{{ research_cloud_output }}/home_work_folder_sizes_{{ date_stamp }}.txt"
+  tags: size_owner
+
+- name: identify folders 2 levels down
+  find: 
+    paths: "{{ item }}"
+    recurse: yes
+    depth: 2
+    file_type: directory
+  register: find_results
+  with_items: "{{ research_data_folders }}"
+  tags: size_owner
+
+# - name: identify folders 4 levels down
+#   find: 
+#     paths: "{{ item }}"
+#     recurse: yes
+#     depth: 4
+#     file_type: directory
+#   register: find_results_4
+#   with_items: "{{ research_work_folders }}"
+#   tags: size_owner
+
+# - name: populate dictionary for info
+#   set_fact: 
+#     folder_info: 
+#       size: "{{ item.1.size}}"
+#       path: "{{ item.1.path }}"
+#     with_subelements:
+#       - "{{ find_results.results }}"
+#       - files
+#   tags: size_owner
+
+# - name: get acl info for found files
+#   acl:
+#     path: "{{ item.path }}"
+#   with_items: "{{ folder_info }}"
+#   register: acl_results
+#   tags: size_owner
+
+# - name: populate new dictionary with acl info
+#   set_fact:
+#     folder_acl_info:
+#       group: "{{ acl_results.group}}"
+#       path: "{{acl_results.path}}"
+#     with_items: "{{ acl_results.results }}"
+#   tags: size_owner
+- name: stat folder for size 
+  shell: "du -sh {{ item.1.path  }} >> {{ acl_file_name }}"
+  with_subelements:
+    - "{{ find_results.results }}"
+    - files
+  tags: size_owner
+
+# - name: stat folder for size 
+#   shell: "du -sh {{ item.1.path  }} >> {{ acl_file_name }}"
+#   with_subelements:
+#     - "{{ find_results_4.results }}"
+#     - files
+#   tags: size_owner
+# - name: write to file
+#   lineinfile: 
+#     dest: "{{ acl_file_name }}"
+#     line: "{{ item.1.size | filesizeformat(True) }} {{ item.1.path }}"
+#     create: yes
+#     owner: root
+#     group: "_grp_dataadmins"
+#     mode: u+rx,g+rwx,o+rx
+#   with_subelements:
+#     - "{{ find_results.results }}"
+#     - files
+#   tags: size_owner
