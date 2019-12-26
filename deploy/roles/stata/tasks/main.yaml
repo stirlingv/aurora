@@ -106,13 +106,13 @@
   tags:
     - stata
 
-- name: remove the stata update files
-  file:
-    path: "{{ stata_update_directory }}"
-    state: absent
-  when: stata_patch_update
-  tags:
-    - stata 
+# - name: remove the stata update files
+#   file:
+#     path: "{{ stata_update_directory }}"
+#     state: absent
+#   when: stata_patch_update
+#   tags:
+#     - stata 
 
 - name: Update permissions
   file:
