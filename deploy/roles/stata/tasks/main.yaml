@@ -87,7 +87,7 @@
   unarchive:
     copy: yes
     src: "{{ stata_local_bin_directory }}/{{ stata_update_tarball }}"
-    dest: "{{ stata_update_directory }}/"
+    dest: "{{ stata_install_directory }}/"
   when: stata_patch_update
   tags:
     - stata
@@ -106,13 +106,13 @@
   tags:
     - stata
 
-# - name: remove the stata update files
-#   file:
-#     path: "{{ stata_update_directory }}"
-#     state: absent
-#   when: stata_patch_update
-#   tags:
-#     - stata 
+- name: remove the stata update files
+  file:
+    path: "{{ stata_update_directory }}"
+    state: absent
+  when: stata_patch_update
+  tags:
+    - stata 
 
 - name: Update permissions
   file:
