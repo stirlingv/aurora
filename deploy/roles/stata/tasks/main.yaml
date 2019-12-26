@@ -73,6 +73,16 @@
   tags:
     - stata
 
+- name: Verify stata update directory
+  file:
+    path: "{{ stata_update_directory }}/"
+    state: directory
+    owner: root
+    group: root
+  when: stata_patch_update
+  tags:
+    - stata
+
 - name: unarchive the stata update tarball
   unarchive:
     copy: yes
