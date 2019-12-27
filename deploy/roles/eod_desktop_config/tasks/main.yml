@@ -1,0 +1,9 @@
+---
+
+- name: Set Applications drop down Stata icons
+  template:
+    src: stata01-MP.desktop
+    dest: '{{shared_desktop_config_location}}'/stata01-MP.desktop
+    mode: u=rwx,g=rx,o=rx
+    tags: 
+      - stata

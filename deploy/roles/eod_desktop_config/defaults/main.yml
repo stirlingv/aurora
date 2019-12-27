@@ -1,0 +1,5 @@
+---
+
+shared_desktop_config_location: /usr/share/applications
+shared_icon_location: /home/cfpb/shared/shared_config/app_icons
+stata_server: wdcresdstatl01.cfpb.local
